@@ -52,10 +52,6 @@ class FFN(nn.Module):
     def forward(self, x):
         return self.net(x)
 
-
-# ---------------------------------------------------------------------
-# GCM / ISP / LEB 等核心模块（保持不变）
-# ---------------------------------------------------------------------
 class GCM(nn.Module):
     def __init__(self, dim, kernel_size=4, stride=4,
                  drop_path=0., ffn_ratio=4, norm_layer=nn.LayerNorm, bias=False):
