@@ -1,11 +1,4 @@
-"""
-UKNet‑Gray : 低光/红外图像单通道增强网络
-改动点：
-1. 默认 in_dim = 1（灰度）
-2. 第一层卷积 Conv2d(1, feat_dim, …)
-3. 最后两层输出 Conv2d(feat_dim, 1, …)
-其余结构保持不变，可无缝迁移除输入/输出层外的权重
-"""
+
 
 import torch
 import torch.nn as nn
@@ -13,9 +6,6 @@ import torch.nn.functional as F
 from timm.models.layers import DropPath
 from thop import profile
 
-# ---------------------------------------------------------------------
-# 基础模块
-# ---------------------------------------------------------------------
 class PreNorm(nn.Module):
     def __init__(self, dim, fn):
         super().__init__()
@@ -200,9 +190,7 @@ class LEB(nn.Module):
         return x
 
 
-# ---------------------------------------------------------------------
-# 主干网络 UKNet（灰度版）
-# ---------------------------------------------------------------------
+
 class UKNet(nn.Module):
     """UKNet‑Gray"""
 
@@ -275,10 +263,6 @@ class UKNet(nn.Module):
         out = self.out_g(g_x) * x + self.out_l(l_x)
         return out
 
-
-# ---------------------------------------------------------------------
-# 快速自测
-# ---------------------------------------------------------------------
 if __name__ == '__main__':
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
