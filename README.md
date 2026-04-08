@@ -35,16 +35,20 @@ Please refer to the instructions in the BasicIRSTD toolbox for training, testing
 
 We used the following datasets in our experiments:
 
-### DenseSIRST-master
+### DenseSIRST
 
 Used to construct label-guided foreground-enhanced samples for training.
+- [Download](https://github.com/GrokCV/BAFE-Net)
+- [Paper](https://arxiv.org/abs/2407.20078) Xiao, M., Dai, Q., Zhu, Y., Guo, K., Wang, H., Shu, X., Yang, J., Dai, Y.:
+  *Background Semantics Matter: Cross-task Feature Exchange Network for Clustered Infrared Small Target Detection with Sky-Annotated Dataset*. arXiv preprint arXiv:2407.20078 (2024)
 
 ### IRSTD-1K
 
 Used as the benchmark dataset for detection evaluation.
 
 - [Download](https://github.com/RuiZhang97/ISNet)
-- [Paper](https://ieeexplore.ieee.org/document/9880295)
+- [Paper](https://ieeexplore.ieee.org/document/9880295) Zhang, M., Zhang, R., Yang, Y., Bai, H., Zhang, J., Guo, J.:
+  *ISNet: Shape Matters for Infrared Small Target Detection*. CVPR (2022)
 
 For detailed instructions on how to use these datasets, please refer to the BasicIRSTD toolbox documentation.
 
@@ -52,8 +56,8 @@ For detailed instructions on how to use these datasets, please refer to the Basi
 
 ### Baseline Detector Training
 
-```bash
-python train.py --model_names DBCE_U_Net --dataset_names IRSTD-1K
+bash
+python train.py --model_names  --dataset_names 
 Training with Label-Guided Foreground Enhancement
 python train.py \
   --model_names DBCE_U_Net \
@@ -65,14 +69,13 @@ python train.py \
   --noise_gate_kernel 7 \
   --lambda_bg 1.0 \
   --lambda_fa 10.0
-Testing
-python test.py --model_names DBCE_U_Net --dataset_names IRSTD-1K
+## Testing
+python test.py --model_names  --dataset_names 
 Inference
-python inference.py --model_names DBCE_U_Net --dataset_names IRSTD-1K
-Important Note
+python inference.py --model_names --dataset_names
+## Important Note
 When --use_enhancer is enabled, the IRSTD code depends on the foreground enhancement implementation in the code/UKNet directory.
-
 Please make sure the directory structure is preserved correctly. Otherwise, the enhancement module may fail to load.
 
-Acknowledgement
+## Acknowledgement
 The code is implemented based on the BasicIRSTD toolbox. We would like to express our sincere thanks to the contributors.
