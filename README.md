@@ -1,9 +1,6 @@
-# Label-Guided-Foreground-Enhancement-for-Low-Light-Infrared-Small-Target-Detection
 # Label-Guided Foreground Enhancement for Low-Light Infrared Small Target Detection
 
-This repository contains the PyTorch implementation of the method proposed in our paper **"Label-Guided Foreground Enhancement for Low-Light Infrared Small Target Detection"**.
-
-Our method introduces a label-guided foreground enhancement strategy for low-light infrared small target detection. By applying enhancement only within target regions while preserving background statistics, the framework improves target visibility and detector robustness under challenging low-light conditions.
+Label-Guided Foreground Enhancement for Low-Light Infrared Small Target Detection is a low-light infrared small target detection framework proposed by Dr. Wenjun Zhou and his collaborators. This repository contains the PyTorch implementation of the method from the paper **"Label-Guided Foreground Enhancement for Low-Light Infrared Small Target Detection"**.
 
 ## Authors and Contributors
 
@@ -19,51 +16,63 @@ From the School of Computer Science and Software Engineering, Southwest Petroleu
 
 ## Usage Notice
 
-- Feel free to download and use this code for academic research and algorithm testing.
+- Feel free to download and use this code for testing your algorithms.
 - If you use this code in your publications, please cite our paper properly.
 
-Thank you for your support and cooperation.
+Thank you for your cooperation!
+
+Date: 2026
 
 ## Dependencies
 
-Our implementation is built on the [BasicIRSTD toolbox](http://github.com/XinyiYing/BasicIRSTD), which provides a standardized PyTorch pipeline for infrared small target detection, including training, testing, and evaluation.
+Our method utilizes the [BasicIRSTD toolbox](http://github.com/XinyiYing/BasicIRSTD) for training, testing, and evaluation. This open-source toolbox, based on PyTorch, provides a standardized pipeline specifically designed for infrared small target detection tasks.
 
-The low-light foreground enhancement module used in this repository is integrated into the IRSTD training framework for label-guided enhancement experiments.
+## Using the Toolbox
 
-### Main Environment
+Please refer to the instructions in the BasicIRSTD toolbox for training, testing, and evaluation of our method.
 
-- Python 3.10+
-- PyTorch
-- torchvision
-- numpy
-- pillow
-- scikit-image
-- matplotlib
-- tqdm
+## Datasets
 
-Depending on your environment, you may also need:
+We used the following datasets in our experiments:
 
-- timm
-- thop
-- opencv-python
-- piq
-- lpips
+### DenseSIRST-master
 
-## Repository Structure
+Used to construct label-guided foreground-enhanced samples for training.
 
-```text
-code/
-  IRSTD/
-    enhancement.py
-    net.py
-    train.py
-    test.py
-    inference.py
-    dataset.py
-    loss.py
-    metrics.py
-    utils.py
-    model/
-  UKNet/
-    uknet_gray.py
-    ...
+### IRSTD-1K
+
+Used as the benchmark dataset for detection evaluation.
+
+- [Download](https://github.com/RuiZhang97/ISNet)
+- [Paper](https://ieeexplore.ieee.org/document/9880295)
+
+For detailed instructions on how to use these datasets, please refer to the BasicIRSTD toolbox documentation.
+
+## Training
+
+### Baseline Detector Training
+
+```bash
+python train.py --model_names DBCE_U_Net --dataset_names IRSTD-1K
+Training with Label-Guided Foreground Enhancement
+python train.py \
+  --model_names DBCE_U_Net \
+  --dataset_names IRSTD-1K \
+  --use_enhancer \
+  --enhancer_ckpt PATH/TO/ENHANCER_CHECKPOINT.pth \
+  --enhancer_mix_ratio 0.5 \
+  --snr_ema_decay 0.9 \
+  --noise_gate_kernel 7 \
+  --lambda_bg 1.0 \
+  --lambda_fa 10.0
+Testing
+python test.py --model_names DBCE_U_Net --dataset_names IRSTD-1K
+Inference
+python inference.py --model_names DBCE_U_Net --dataset_names IRSTD-1K
+Important Note
+When --use_enhancer is enabled, the IRSTD code depends on the foreground enhancement implementation in the code/UKNet directory.
+
+Please make sure the directory structure is preserved correctly. Otherwise, the enhancement module may fail to load.
+
+Acknowledgement
+The code is implemented based on the BasicIRSTD toolbox. We would like to express our sincere thanks to the contributors.
